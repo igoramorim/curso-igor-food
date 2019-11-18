@@ -1,11 +1,13 @@
 package com.mycompany.igorfood.testes;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import com.mycompany.igorfood.domain.model.Cozinha;
 import com.mycompany.igorfood.domain.model.Restaurante;
@@ -60,15 +62,20 @@ public class TestesLambda {
 			.forEach(System.out::println);
 		
 		
-		System.out.printf("\nStream: IntSummaryStatistics\n");
 		DoubleSummaryStatistics statistics = restaurantes.stream()
 				.collect(Collectors.summarizingDouble(r -> r.getTaxaFrete().doubleValue()));
-		System.out.printf("\nStatistics: %s\n", statistics);
+		System.out.printf("\nStatistics: %s", statistics);
+		System.out.printf("\nStatistics average: %s", BigDecimal.valueOf(statistics.getAverage()).setScale(2, RoundingMode.CEILING));
+		System.out.printf("\nStatistics count: %s", BigDecimal.valueOf(statistics.getCount()).setScale(2, RoundingMode.CEILING));
+		System.out.printf("\nStatistics max: %s", BigDecimal.valueOf(statistics.getMax()).setScale(2, RoundingMode.CEILING));
+		System.out.printf("\nStatistics min: %s", BigDecimal.valueOf(statistics.getMin()).setScale(2, RoundingMode.CEILING));
+		System.out.printf("\nStatistics sum: %s\n", BigDecimal.valueOf(statistics.getSum()).setScale(2, RoundingMode.CEILING));
 		
 		
 		System.out.printf("\nStream: agrupando por taxa de frete\n");
 		Map<Integer, List<Restaurante>> collectorMapFrete = restaurantes.stream()
 				.collect(Collectors.groupingBy(r -> r.getTaxaFrete().intValue()));
+		
 		collectorMapFrete.forEach((k, v) -> { System.out.println("taxa: " + k + " - " + v); });
 		
 		
@@ -76,6 +83,18 @@ public class TestesLambda {
 		Map<Object, List<Restaurante>> collectorMapCozinha = restaurantes.stream()
 				.collect(Collectors.groupingBy(r -> r.getCozinha().getNome()));
 		collectorMapCozinha.forEach((k, v) -> { System.out.println("cozinha: " + k + " - " + v); });
+		
+		
+		System.out.printf("\nParallel Stream\n");
+		
+		System.out.println(">>> Normal");
+		IntStream range = IntStream.rangeClosed(1, 10);
+		range.forEach(n -> System.out.printf("%s ", n));
+		
+		System.out.println("\n>>> Parallel");
+		IntStream range2 = IntStream.rangeClosed(1, 10);
+		range2.parallel().forEach(n -> System.out.println("Thread: " + Thread.currentThread().getName() + " value: " + n));
+		
 
 	}
 
