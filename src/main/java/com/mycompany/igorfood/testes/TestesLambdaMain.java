@@ -12,7 +12,7 @@ import java.util.stream.IntStream;
 import com.mycompany.igorfood.domain.model.Cozinha;
 import com.mycompany.igorfood.domain.model.Restaurante;
 
-public class TestesLambda {
+public class TestesLambdaMain {
 
 	public static void main(String[] args) {
 		
