@@ -18,7 +18,7 @@ import com.mycompany.igorfood.testes.model.Aluno;
 
 public class TestesAbreExcel {
 	
-	private static final String fileName = "C:/Users/igor/teste/teste-apache-poi.xlsx";
+	private static final String fileName = "C:/Users/RE.03964/teste/alunos.xlsx";
 	
 	public static void main(String[] args) throws IOException {
 		
@@ -57,6 +57,7 @@ public class TestesAbreExcel {
 						break;
 					case 4:
 						aluno.setMedia(cell.getNumericCellValue());
+						System.out.println(cell.getCellFormula());
 						break;
 					}
 				}

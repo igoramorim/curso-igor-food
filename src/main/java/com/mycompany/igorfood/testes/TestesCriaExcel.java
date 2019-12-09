@@ -8,7 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.util.CellAddress;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -16,7 +21,7 @@ import com.mycompany.igorfood.testes.model.Aluno;
 
 public class TestesCriaExcel {
 	
-	private static final String fileName = "c:/users/igor/teste/novo.xlsx";
+	private static final String fileName = "C:/Users/RE.03964/teste/novo.xlsx";
 	
 	public static void main(String[] args) {
 		
@@ -43,12 +48,23 @@ public class TestesCriaExcel {
 			
 			Cell cellNota1 = row.createCell(cellNum++);
 			cellNota1.setCellValue(aluno.getNota1());
+			CellAddress nota1Address = cellNota1.getAddress();
+			System.out.println("nota1: " + nota1Address.toString());
 			
 			Cell cellNota2 = row.createCell(cellNum++);
 			cellNota2.setCellValue(aluno.getNota2());
+			CellAddress nota2Address = cellNota2.getAddress();
+			System.out.println("nota2: " + nota2Address.toString());
+			
+			CellStyle style = workbook.createCellStyle();
+			style.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+			style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 			
 			Cell cellMedia = row.createCell(cellNum++);
+			cellMedia.setCellType(CellType.FORMULA);
+			cellMedia.setCellFormula("MED(" + nota1Address + ":" + nota2Address + ")");
 			cellMedia.setCellValue((aluno.getNota1() + aluno.getNota2()) / 2);
+			cellMedia.setCellStyle(style);
 		}
 		
 		try {
