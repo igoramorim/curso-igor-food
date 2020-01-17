@@ -39,16 +39,18 @@ public class CreateDatasetFromListWithSchema {
 					RowFactory.create("630-0746","Dixon value"),
 					RowFactory.create("4444-444","3M INdustries"),
 					RowFactory.create("555-55","Dixon coupling valve"));
+			
+			StructType schema = new StructType(new StructField[] {new StructField("label1", DataTypes.StringType, false,Metadata.empty()),
+					new StructField("sentence1", DataTypes.StringType, false,Metadata.empty()) });
 
-			StructType schema = new StructType(new StructField[] {new StructField("label1", DataTypes.StringType, false, Metadata.empty()),
-			new StructField("sentence1", DataTypes.StringType, false,Metadata.empty()) });
-
-			Dataset<Row> sentenceDataFrame = spark.createDataFrame(data, schema);
+			Dataset<Row> dataset = spark.createDataFrame(data, schema);
+			dataset.show();
 
 //			List<String> listStrings = new ArrayList<String>();
 //			listStrings.add("405-048011-62815");
 //			listStrings.add("630-0746");
 //			Dataset<Row> matchFound1=sentenceDataFrame.filter(col("label1").isin(listStrings.stream().toArray(String[]::new)));
+//			sentenceDataFrame.show();
 //			matchFound1.show();
 //			listStrings.clear();
 //			listStrings.add("222-2222-5555");
@@ -61,19 +63,23 @@ public class CreateDatasetFromListWithSchema {
 			//Dataset1.show();
 
 
-			List<Row> data2 = Arrays.asList(
-			RowFactory.create("222-2222-5555", "Tata"),
-			RowFactory.create("7777-88886","WestSide"),
-			RowFactory.create("22222-22224","Reliance"),
-			RowFactory.create("33333-3333","V industries"));
-
-			StructType schema2 = new StructType(new StructField[] {new StructField("label2", DataTypes.StringType, false,Metadata.empty()),
-			new StructField("sentence2", DataTypes.StringType, false,Metadata.empty()) });
-
-			Dataset<Row> sentenceDataFrame2 = spark.createDataFrame(data2, schema2);
+//			List<Row> data2 = Arrays.asList(
+//			RowFactory.create("222-2222-5555", "Tata"),
+//			RowFactory.create("7777-88886","WestSide"),
+//			RowFactory.create("22222-22224","Reliance"),
+//			RowFactory.create("33333-3333","V industries"));
+//
+//			StructType schema2 = new StructType(new StructField[] {new StructField("label2", DataTypes.StringType, false,Metadata.empty()),
+//			new StructField("sentence2", DataTypes.StringType, false,Metadata.empty()) });
+//
+//			Dataset<Row> sentenceDataFrame2 = spark.createDataFrame(data2, schema2);
+//			
+//			sentenceDataFrame.show();
+//			sentenceDataFrame2.show();
 			
-			sentenceDataFrame.show();
-			sentenceDataFrame2.show();
+//			Dataset<Row> finalDataset = sentenceDataFrame.join(sentenceDataFrame2, sentenceDataFrame.col("label1").equalTo(sentenceDataFrame2.col("label1")));
+//			Dataset<Row> finalDataset = sentenceDataFrame.unionAll(sentenceDataFrame2);
+//			finalDataset.show();
 
 //			Dataset<Row> matchFound2=sentenceDataFrame2.filter(col("label2").isin(listStrings.stream().toArray(String[]::new)));
 //			matchFound2.show();
