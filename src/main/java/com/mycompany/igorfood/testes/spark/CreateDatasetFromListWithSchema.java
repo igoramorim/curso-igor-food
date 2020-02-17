@@ -14,6 +14,7 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.RowFactory;
 import org.apache.spark.sql.SQLContext;
+import org.apache.spark.sql.SaveMode;
 import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.Metadata;
@@ -35,16 +36,23 @@ public class CreateDatasetFromListWithSchema {
 			SQLContext sqlContext = new SQLContext(spark);
 			
 			List<Row> data = Arrays.asList(
-					RowFactory.create("405-048011-62815", "CRC Industries"),
-					RowFactory.create("630-0746","Dixon value"),
-					RowFactory.create("4444-444","3M INdustries"),
-					RowFactory.create("555-55","Dixon coupling valve"));
+					RowFactory.create("1", "igor"),
+					RowFactory.create("1","maria"),
+					RowFactory.create("3","joao"),
+					RowFactory.create("4","jose"));
 			
-			StructType schema = new StructType(new StructField[] {new StructField("label1", DataTypes.StringType, false,Metadata.empty()),
-					new StructField("sentence1", DataTypes.StringType, false,Metadata.empty()) });
+			StructType schema = new StructType(new StructField[] {new StructField("id", DataTypes.StringType, false,Metadata.empty()),
+					new StructField("nome", DataTypes.StringType, false,Metadata.empty()) });
 
 			Dataset<Row> dataset = spark.createDataFrame(data, schema);
 			dataset.show();
+			
+//			dataset.repartition(1)
+//				.write()
+//				.mode(SaveMode.Overwrite)
+//	            .option("header", "true")
+//	            .format("csv")
+//	            .save("C:/Users/RE.03964/teste/posicional");
 
 //			List<String> listStrings = new ArrayList<String>();
 //			listStrings.add("405-048011-62815");
